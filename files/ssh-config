@@ -1,0 +1,5 @@
+AddKeysToAgent yes
+
+Host gitlab.com
+	IdentitiesOnly yes
+	IdentityFile ~/.ssh/gitlab

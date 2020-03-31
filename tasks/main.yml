@@ -1,0 +1,39 @@
+---
+- name: add gitlab.com to known_hosts
+  known_hosts:
+    name: gitlab.com
+    key: '{{ item }}'
+    path: /etc/ssh/ssh_known_hosts
+    state: present
+  with_items: '{{ known_hosts }}'
+  become: yes
+
+- name: ensures user has ssh config for gitlab
+  copy:
+    src: files/ssh-config
+    dest: ~/.ssh/config
+    mode: '0600'
+  become_user: '{{ admin_user }}'
+  become: yes
+
+- name: 'ensures group {{ admin_group }} is present'
+  group:
+    name: '{{ admin_group }}'
+    state: present
+  become: yes
+
+- name: ensures the key is on the remote host
+  copy:
+    src: '{{ keyfile }}'
+    dest: ~/.ssh/gitlab
+    mode: '0600'
+  become_user: '{{ admin_user }}'
+  become: yes
+
+- name: ensures the pubkey is on the remote host
+  copy:
+    src: '{{ keyfile }}.pub'
+    dest: ~/.ssh/gitlab.pub
+    mode: '0600'
+  become_user: '{{ admin_user }}'
+  become: yes
