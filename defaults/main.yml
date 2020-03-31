@@ -2,3 +2,4 @@
 admin_user: admin
 admin_group: server-admin
 known_hosts: []
+keyfile: ''
